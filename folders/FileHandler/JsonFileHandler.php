@@ -1,33 +1,60 @@
-<?php
+<?php 
 
-require_once '../FileHandlerInterface/IJasonHandler.php';
+require_once '../FileHandlerInterface/IHandler.php';
 
-class JsonFileHandler implements IHandlerFile{
-    public $directory;
-    public $transactionList;
+class JsonFileHandler implements IHandler
+{
+    private $directory;
+    private $name;
 
-    function __construct($directory = "data", $transactionList)
+    function __construct($directory, $name)
     {
         $this->directory = $directory;
-        $this->transactionList = $transactionList;
+        $this->name = $name;
     }
 
-    function ReadList() {
+    function MakeDirectory()
+    {
+        $path = $this->directory . $this->name . '.json';
 
+        if (!file_exists($path)) {
+
+            mkdir($path, 0777, true);
+
+        }
     }
 
-    function WriteList() {
+    function ReadList()
+    {
+        $this->MakeDirectory();
+        $path = $this->directory . '/' . $this->name . '.json';
 
+        if(file_exists($path)) {
+
+            $file = fopen($path, 'r');
+            $fileDecode = fread($file, filesize($path));
+            fclose($file);
+
+            return json_decode($fileDecode);
+        } else {
+
+            return false;
+        }
     }
 
-    function EditList($id) {
+    function WriteList($entity)
+    {
+        $this->MakeDirectory();
+        $path = $this->directory . '/' . $this->name . '.json';
 
-    }
+        $dataCode = json_encode($entity);
 
-    function DeleteList($id) {
-        
+        $file = fopen($path,'w+');
+        fwrite($file, $dataCode);
+        fclose($file);
     }
 
 }
+
 
 ?>
