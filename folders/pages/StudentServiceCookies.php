@@ -29,7 +29,7 @@ class StudentServiceCookie implements IServiceBasic
     public function GetById($id)
     {
         $listadoStudent = $this->GetList();
-        $elementDecode = $this->logic->careerFilter($listadoStudent, 'id', $id)[0];
+        $elementDecode = $this->logic->getElementList($listadoStudent, 'id', $id)[0];
         $student = new Student();
         $student->set($elementDecode);
         return $student;
@@ -81,7 +81,7 @@ class StudentServiceCookie implements IServiceBasic
     {
         $element = $this->GetById($id);
         $listadoStudent = $this->GetList();
-        $elementIndex = $this->logic->deleteElement($listadoStudent, 'id', $id);
+        $elementIndex = $this->logic->getIndex($listadoStudent, 'id', $id);
 
         if (isset($_FILES['profilePhoto'])) {
 
@@ -115,7 +115,7 @@ class StudentServiceCookie implements IServiceBasic
     public function Delete($id)
     {
         $listadoStudent = $this->GetList();
-        $elementIndex = $this->logic->deleteElement($listadoStudent, 'id', $id);
+        $elementIndex = $this->logic->getIndex($listadoStudent, 'id', $id);
         unset($listadoStudent[$elementIndex]);
 
         $listadoStudent = array_values($listadoStudent);

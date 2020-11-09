@@ -10,15 +10,15 @@ $layout = new Layout(true);
 $studentService = new StudentServiceCookie();
 $logic = new Logic();
 
-if(isset($_POST["name"]) && isset($_POST["last-name"]) && isset($_POST["carrera"]) && isset($_FILES["profilePhoto"])) {
-    if(isset($_POST["status"])) {
-        $_POST["status"]="Activo";
+if (isset($_POST["name"]) && isset($_POST["last-name"]) && isset($_POST["carrera"]) && isset($_FILES["profilePhoto"])) {
+    if (isset($_POST["status"])) {
+        $_POST["status"] = "Activo";
     } else {
-        $_POST["status"]="Inactivo";
+        $_POST["status"] = "Inactivo";
     }
 
     $newStudent = new Student();
-    $newStudent->InicializeData(0,$_POST["name"],$_POST["last-name"],$_POST["carrera"],$_POST["status"]);
+    $newStudent->InicializeData(0, $_POST["name"], $_POST["last-name"], $_POST["carrera"], $_POST["status"]);
 
     $studentService->Add($newStudent);
 
@@ -41,12 +41,12 @@ $layout->printHeader();
     <div class="col-4">
         <form enctype="multipart/form-data" action="add.php" method="POST">
             <div class="form-group">
-                <label for="name">Nombre</label>
-                <input class="form-control" id="name" name="name">
+                <label for="id">Id</label>
+                <input class="form-control" id="id" name="id">
             </div>
             <div class="form-group">
-                <label for="name">Apellido</label>
-                <input class="form-control" id="last-name" name="last-name">
+                <label for="monto"></label>
+                <input class="form-control" id="monto" name="monto">
             </div>
             <div class="form-group">
                 <label for="name">Carrera</label>
@@ -63,7 +63,7 @@ $layout->printHeader();
             </div>
             <div class="form-group">
                 <label for="photo">Foto de perfil:</label>
-                <input type ="file" class="form-control" id="photo" name="profilePhoto">
+                <input type="file" class="form-control" id="photo" name="profilePhoto">
             </div>
             <button type="submit" class="btn btn-primary">Agregar</button>
         </form>

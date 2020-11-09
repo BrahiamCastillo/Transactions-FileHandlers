@@ -16,7 +16,7 @@ if (!empty($studentList)) {
 
     if (isset($_GET["carrera"])) {
 
-        $studentList = $logic->careerFilter($studentList, "carrera", $_GET["carrera"]);
+        $studentList = $logic->getElementList($studentList, "carrera", $_GET["carrera"]);
     }
 }
 
@@ -81,12 +81,12 @@ $layout->printHeader();
                                 <?php endif; ?>
 
                                 <div class="card-body size-letter">
-                                    <p>Nombre: <?php echo $students->name; ?></p>
-                                    <p>Apellido: <?php echo $students->lastName; ?></p>
+                                    <p>Id: <?php echo $students->name; ?></p>
+                                    <p>Fecha y hora: <?php echo $students->lastName; ?></p>
                                 </div>
                                 <div class="card-body text-light">
-                                    <p>Carrera: <?php echo $students->carrera; ?></p>
-                                    <p>Status: <?php echo $students->status; ?></p>
+                                    <p>Monto: <?php echo $students->carrera; ?></p>
+                                    <p>Descripción: <?php echo $students->status; ?></p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <hr>
                                         </hr>

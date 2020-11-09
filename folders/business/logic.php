@@ -12,7 +12,7 @@ class Logic
         return $lastId;
     }
 
-    public function careerFilter($array, $place, $value)
+    public function getElementList($array, $place, $value)
     {
         $filter = [];
 
@@ -29,7 +29,7 @@ class Logic
         return time() + 60*60*24*30;
     }
 
-    public function deleteElement($array, $place, $value)
+    public function getIndex($array, $place, $value)
     {
 
         $loc = 0;
