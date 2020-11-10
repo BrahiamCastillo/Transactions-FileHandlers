@@ -10,7 +10,7 @@ require_once '..\FileHandler\JsonFileTransaction.php';
 require_once 'transaction.php';
 
 $layout = new Layout(true);
-$studentService = new JsonFileTransaction();
+$studentService = new JsonFileTransaction("..\FileHandler\dataJSON");
 $logic = new Logic();
 
 if (isset($_GET['id'])) {

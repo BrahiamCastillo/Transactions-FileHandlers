@@ -10,7 +10,7 @@ require_once '../FileHandler/JsonFileTransaction.php';
 require_once 'transaction.php';
 
 $layout = new Layout(true);
-$transactionService = new JsonFileTransaction();
+$transactionService = new JsonFileTransaction("..\FileHandler\dataJSON");
 $logic = new Logic();
 
 if (isset($_POST["monto"]) && isset($_POST["descripcion"]) && isset($_FILES["profilePhoto"])) {

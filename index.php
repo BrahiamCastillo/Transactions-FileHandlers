@@ -11,7 +11,7 @@ require_once 'folders\pages\transaction.php';
 
 $layout = new Layout(false);
 $logic = new Logic();
-$serviceJSON = new JsonFileTransaction("folders\pages\data");
+$serviceJSON = new JsonFileTransaction("folders\FileHandler\dataJSON");
 
 $transactionList = $serviceJSON->GetList();
 
@@ -79,7 +79,7 @@ $layout->printHeader();
 
                                 <?php else : ?>
 
-                                    <img class="bd-placeholder-img card-img-top" src="<?php echo "folders/pages/" . $students->profilePhoto; ?>" width="100%" height="225" aria-label="Placeholder: Thumbnail">
+                                    <img class="bd-placeholder-img card-img-top" src="<?php echo "folders/FileHandler/images/" . $students->profilePhoto; ?>" width="100%" height="225" aria-label="Placeholder: Thumbnail">
 
                                 <?php endif; ?>
 

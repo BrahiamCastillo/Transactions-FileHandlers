@@ -9,7 +9,7 @@ require_once '..\FileHandler\JsonFileHandler.php';
 require_once '..\FileHandler\JsonFileTransaction.php';
 require_once 'transaction.php';
 
-$serviceStudent = new JsonFileTransaction();
+$serviceStudent = new JsonFileTransaction("..\FileHandler\dataJSON");
 
 $isContainId = isset($_GET['id']);
 

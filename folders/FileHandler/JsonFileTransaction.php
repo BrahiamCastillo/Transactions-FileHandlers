@@ -71,7 +71,7 @@ class JsonFileTransaction implements IServiceBasic
                 $name = $transactionID . '.' . $typeReplace;
                 $timeFile = $photoFile['tmp_name'];
 
-                $sucess = $this->logic->uploadImage('../../folders/pages/', $name, $timeFile, $type, $size);
+                $sucess = $this->logic->uploadImage('../FileHandler/images/', $name, $timeFile, $type, $size);
 
                 if ($sucess) {
 
@@ -106,7 +106,7 @@ class JsonFileTransaction implements IServiceBasic
                 $name = $id . '.' . $typeReplace;
                 $timeFile = $photoFile['tmp_name'];
 
-                $sucess = $this->logic->uploadImage('../../folders/pages/', $name, $timeFile, $type, $size);
+                $sucess = $this->logic->uploadImage('../FileHandler/images/', $name, $timeFile, $type, $size);
 
                 if ($sucess) {
 
