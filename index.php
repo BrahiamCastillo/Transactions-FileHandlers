@@ -5,14 +5,17 @@ require_once 'folders\business\logic.php';
 require_once 'folders\pages\student.php';
 require_once 'folders\service\IServiceBasic.php';
 require_once 'folders\pages\StudentServiceCookies.php';
+require_once 'folders\FileHandler\JsonFileTransaction.php';
+require_once 'folders\FileHandler\JsonFileHandler.php';
+require_once 'folders\pages\transaction.php';
 
 $layout = new Layout(false);
 $logic = new Logic();
-$serviceStudent = new StudentServiceCookie();
+$serviceJSON = new JsonFileTransaction("folders\pages\data");
 
-$studentList = $serviceStudent->GetList();
+$transactionList = $serviceJSON->GetList();
 
-if (!empty($studentList)) {
+if (!empty($transactionList)) {
 
     if (isset($_GET["carrera"])) {
 
@@ -32,10 +35,10 @@ $layout->printHeader();
 
     <section class="jumbotron text-center">
         <div class="container">
-            <h1>Registro de estudiantes</h1>
-            <p class="lead text-muted">Aquí se podrá apreciar la lista de estudiantes agregados.</p>
+            <h1>Registro de transacciones</h1>
+            <p class="lead text-muted">Aquí se podrá apreciar la lista de transacciones agregadas.</p>
             <p>
-                <a href="folders\pages\add.php" class="btn btn-primary my-2">Agregar estudiante</a>
+                <a href="folders\pages\add.php" class="btn btn-primary my-2">Agregar transacción</a>
             </p>
         </div>
     </section>
@@ -59,13 +62,13 @@ $layout->printHeader();
 
             <div class="row">
 
-                <?php if (empty($studentList)) : ?>
+                <?php if (empty($transactionList)) : ?>
 
-                    <h2>No hay estudiantes registrados.</h2>
+                    <h2>No hay transacciones registradas.</h2>
 
                 <?php else : ?>
 
-                    <?php foreach ($studentList as $students) : ?>
+                    <?php foreach ($transactionList as $students) : ?>
 
                         <div class="col-md-4 bg-dark" style="margin-right: 8px; margin-bottom: 8px;">
                             <div class="card mb-4 shadow-sm bg-dark text-light">
@@ -81,12 +84,12 @@ $layout->printHeader();
                                 <?php endif; ?>
 
                                 <div class="card-body size-letter">
-                                    <p>Id: <?php echo $students->name; ?></p>
-                                    <p>Fecha y hora: <?php echo $students->lastName; ?></p>
+                                    <p>Id: <?php echo $students->id; ?></p>
+                                    <p>Fecha y hora: <?php echo $students->fechaHora; ?></p>
                                 </div>
                                 <div class="card-body text-light">
-                                    <p>Monto: <?php echo $students->carrera; ?></p>
-                                    <p>Descripción: <?php echo $students->status; ?></p>
+                                    <p>Monto: <?php echo $students->monto; ?></p>
+                                    <p>Descripción: <?php echo $students->descripcion; ?></p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <hr>
                                         </hr>

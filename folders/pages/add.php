@@ -5,22 +5,22 @@ require_once '..\..\folders\business\logic.php';
 require_once 'student.php';
 require_once '..\..\folders\service\IServiceBasic.php';
 require_once 'StudentServiceCookies.php';
+require_once '../FileHandler/JsonFileHandler.php';
+require_once '../FileHandler/JsonFileTransaction.php';
+require_once 'transaction.php';
 
 $layout = new Layout(true);
-$studentService = new StudentServiceCookie();
+$transactionService = new JsonFileTransaction();
 $logic = new Logic();
 
-if (isset($_POST["name"]) && isset($_POST["last-name"]) && isset($_POST["carrera"]) && isset($_FILES["profilePhoto"])) {
-    if (isset($_POST["status"])) {
-        $_POST["status"] = "Activo";
-    } else {
-        $_POST["status"] = "Inactivo";
-    }
+if (isset($_POST["monto"]) && isset($_POST["descripcion"]) && isset($_FILES["profilePhoto"])) {
 
-    $newStudent = new Student();
-    $newStudent->InicializeData(0, $_POST["name"], $_POST["last-name"], $_POST["carrera"], $_POST["status"]);
+    $profilePhoto = $_FILES["profilePhoto"];
 
-    $studentService->Add($newStudent);
+    $newStudent = new Transaction();
+    $newStudent->InicializeData(0, "", $_POST["monto"], $_POST["descripcion"], "Agregacion", $profilePhoto);
+
+    $transactionService->Add($newStudent);
 
     header("location: ../../index.php");
     exit();
@@ -41,25 +41,12 @@ $layout->printHeader();
     <div class="col-4">
         <form enctype="multipart/form-data" action="add.php" method="POST">
             <div class="form-group">
-                <label for="id">Id</label>
-                <input class="form-control" id="id" name="id">
-            </div>
-            <div class="form-group">
-                <label for="monto"></label>
+                <label for="monto">Monto</label>
                 <input class="form-control" id="monto" name="monto">
             </div>
             <div class="form-group">
-                <label for="name">Carrera</label>
-                <select class="form-control" name="carrera" id="carrera">
-                    <?php foreach ($logic->carreras as $carrera) :
-                        echo "<option value='$carrera'>$carrera</option>";
-                    ?>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="status" name="status">
-                <label class="form-check-label" for="status">Status</label>
+                <label for="descripcion">Descripcion</label>
+                <input class="form-control" id="descripcion" name="descripcion">
             </div>
             <div class="form-group">
                 <label for="photo">Foto de perfil:</label>

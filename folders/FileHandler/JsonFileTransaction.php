@@ -8,33 +8,31 @@ class JsonFileTransaction implements IServiceBasic
     private $name;
     private $directory;
 
-    public function __construct()
+    public function __construct($directory = 'data')
     {
         $this->logic = new Logic();
-        $this->directory = 'data';
+        $this->directory = $directory;
         $this->name = 'Transacciones';
         $this->fileHandler = new JsonFileHandler($this->directory, $this->name);
     }
 
     public function GetList()
     {
-        $listadoTransaction = array();
+        $listadoTransaction = $this->fileHandler->ReadList();
+        $transactionList = array();
 
-        if (file_exists($this->directory . $this->name)) {
+        if ($listadoTransaction == false) {
+            $this->fileHandler->WriteList($transactionList);
+        } else {
 
-            $transactionList = $this->fileHandler->ReadList();
-
-            foreach ($transactionList as $list) {
+            foreach ($listadoTransaction as $list) {
 
                 $transaction = new Transaction();
                 $transaction->set($list);
-                array_push($listadoTransaction, $transaction);
+                array_push($transactionList, $transaction);
             }
-        } else {
-            $this->fileHandler->WriteList($listadoTransaction);
         }
-
-        return $listadoTransaction;
+        return $transactionList;
     }
 
     public function GetById($id)

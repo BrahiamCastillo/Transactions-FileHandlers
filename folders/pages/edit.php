@@ -5,9 +5,12 @@ require_once '..\..\folders\business\logic.php';
 require_once 'student.php';
 require_once '..\..\folders\service\IServiceBasic.php';
 require_once 'StudentServiceCookies.php';
+require_once '..\FileHandler\JsonFileHandler.php';
+require_once '..\FileHandler\JsonFileTransaction.php';
+require_once 'transaction.php';
 
 $layout = new Layout(true);
-$studentService = new StudentServiceCookie();
+$studentService = new JsonFileTransaction();
 $logic = new Logic();
 
 if (isset($_GET['id'])) {

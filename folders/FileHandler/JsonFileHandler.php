@@ -1,6 +1,6 @@
 <?php 
 
-require_once '../FileHandlerInterface/IHandler.php';
+require_once 'IHandler.php';
 
 class JsonFileHandler implements IHandler
 {
@@ -15,11 +15,10 @@ class JsonFileHandler implements IHandler
 
     function MakeDirectory()
     {
-        $path = $this->directory . $this->name . '.json';
 
-        if (!file_exists($path)) {
+        if (!file_exists($this->directory)) {
 
-            mkdir($path, 0777, true);
+            mkdir($this->directory, 0777, true);
 
         }
     }
