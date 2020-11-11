@@ -6,19 +6,23 @@ require_once 'student.php';
 require_once '..\..\folders\service\IServiceBasic.php';
 require_once 'StudentServiceCookies.php';
 require_once '../FileHandler/JsonFileHandler.php';
-require_once '../FileHandler/JsonFileTransaction.php';
-require_once 'transaction.php';
+require_once '../FileHandler/FileTransaction.php';
+require_once '../FileHandler/IHandler.php';
+require_once '../FileHandler/CSVFileHandler.php';
+require_once '../FileHandler/transactionObjetc.php';
 
 $layout = new Layout(true);
-$transactionService = new JsonFileTransaction("..\FileHandler\dataJSON");
+$transactionService = new FileTransaction("../FileHandler/data");
 $logic = new Logic();
 
 if (isset($_POST["monto"]) && isset($_POST["descripcion"]) && isset($_FILES["profilePhoto"])) {
 
     $profilePhoto = $_FILES["profilePhoto"];
 
-    $newStudent = new Transaction();
-    $newStudent->InicializeData(0, "", $_POST["monto"], $_POST["descripcion"], "Agregacion", $profilePhoto);
+    $time = date('d-m-Y H:i:s');
+
+    $newStudent = new TransactionObject();
+    $newStudent->InicializeData(0, $time, $_POST["monto"], $_POST["descripcion"], "Agregacion", $profilePhoto);
 
     $transactionService->Add($newStudent);
 

@@ -6,10 +6,11 @@ require_once 'student.php';
 require_once '..\..\folders\service\IServiceBasic.php';
 require_once 'StudentServiceCookies.php';
 require_once '..\FileHandler\JsonFileHandler.php';
-require_once '..\FileHandler\JsonFileTransaction.php';
-require_once 'transaction.php';
+require_once '..\FileHandler\FileTransaction.php';
+require_once '../FileHandler/IHandler.php';
+require_once '../FileHandler/transactionObjetc.php';
 
-$serviceStudent = new JsonFileTransaction("..\FileHandler\dataJSON");
+$serviceStudent = new FileTransaction("..\FileHandler\data");
 
 $isContainId = isset($_GET['id']);
 

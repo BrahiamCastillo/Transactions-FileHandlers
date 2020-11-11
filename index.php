@@ -5,15 +5,18 @@ require_once 'folders\business\logic.php';
 require_once 'folders\pages\student.php';
 require_once 'folders\service\IServiceBasic.php';
 require_once 'folders\pages\StudentServiceCookies.php';
-require_once 'folders\FileHandler\JsonFileTransaction.php';
+require_once 'folders\FileHandler\FileTransaction.php';
 require_once 'folders\FileHandler\JsonFileHandler.php';
-require_once 'folders\pages\transaction.php';
+require_once 'folders\FileHandler\transactionObjetc.php';
 
 $layout = new Layout(false);
 $logic = new Logic();
-$serviceJSON = new JsonFileTransaction("folders\FileHandler\dataJSON");
+$serviceJSON = new FileTransaction("folders\FileHandler\data");
 
 $transactionList = $serviceJSON->GetList();
+
+$arrayEncode = json_encode($transactionList);
+$arrayDecode =json_decode($arrayEncode,true);
 
 if (!empty($transactionList)) {
 
@@ -75,7 +78,7 @@ $layout->printHeader();
 
                                 <?php if ($students->profilePhoto == "" || $students->profilePhoto == null) : ?>
 
-                                    <img class="bd-placeholder-img card-img-top" src="folders/pages/default.png" width="100%" height="225" aria-label="Placeholder: Thumbnail">
+                                    <img class="bd-placeholder-img card-img-top" src="folders/FileHandler/images/default.png" width="100%" height="225" aria-label="Placeholder: Thumbnail">
 
                                 <?php else : ?>
 
@@ -85,7 +88,7 @@ $layout->printHeader();
 
                                 <div class="card-body size-letter">
                                     <p>Id: <?php echo $students->id; ?></p>
-                                    <p>Fecha y hora: <?php echo $students->fechaHora; ?></p>
+                                    <p>Fecha y hora: <?php echo $students->fechaHora ?></p>
                                 </div>
                                 <div class="card-body text-light">
                                     <p>Monto: <?php echo $students->monto; ?></p>

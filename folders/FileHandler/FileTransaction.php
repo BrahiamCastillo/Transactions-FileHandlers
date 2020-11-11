@@ -1,6 +1,9 @@
 <?php
 
-class JsonFileTransaction implements IServiceBasic
+require_once 'SerializeFileHandler.php';
+require_once 'CSVFileHandler.php';
+
+class FileTransaction implements IServiceBasic
 {
 
     private $logic;
@@ -27,7 +30,7 @@ class JsonFileTransaction implements IServiceBasic
 
             foreach ($listadoTransaction as $list) {
 
-                $transaction = new Transaction();
+                $transaction = new transactionObject();
                 $transaction->set($list);
                 array_push($transactionList, $transaction);
             }
@@ -39,7 +42,7 @@ class JsonFileTransaction implements IServiceBasic
     {
         $listadoTransaction = $this->GetList();
         $elementDecode = $this->logic->getElementList($listadoTransaction, 'id', $id)[0];
-        $transaction = new Transaction();
+        $transaction = new transactionObject();
         $transaction->set($elementDecode);
         return $transaction;
     }
@@ -89,7 +92,7 @@ class JsonFileTransaction implements IServiceBasic
     {
         $element = $this->GetById($id);
         $$listadoTransaction = $this->GetList();
-        $elementIndex = $this->logic->getIndex($$listadoTransaction, 'id', $id);
+        $elementIndex = $this->logic->getIndex($listadoTransaction, 'id', $id);
 
         if (isset($_FILES['profilePhoto'])) {
 

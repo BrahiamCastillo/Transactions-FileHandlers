@@ -6,11 +6,12 @@ require_once 'student.php';
 require_once '..\..\folders\service\IServiceBasic.php';
 require_once 'StudentServiceCookies.php';
 require_once '..\FileHandler\JsonFileHandler.php';
-require_once '..\FileHandler\JsonFileTransaction.php';
-require_once 'transaction.php';
+require_once '..\FileHandler\FileTransaction.php';
+require_once '../FileHandler/IHandler.php';
+require_once '../FileHandler/transactionObjetc.php';
 
 $layout = new Layout(true);
-$studentService = new JsonFileTransaction("..\FileHandler\dataJSON");
+$studentService = new FileTransaction("..\FileHandler\data");
 $logic = new Logic();
 
 if (isset($_GET['id'])) {
@@ -18,12 +19,19 @@ if (isset($_GET['id'])) {
     $studentId = $_GET['id'];
 
     $modify = $studentService->GetById($studentId);
+    $arrayEncode = json_encode($modify);
+    $arrayDecode =json_decode($arrayEncode,true);
 
 
     if (isset($_POST["monto"]) && isset($_POST["descripcion"]) && isset($_FILES["profilePhoto"])) {
 
-        $updateStudent = new Transaction();
-        $updateStudent->InicializeData($studentId, "", $_POST["monto"], $_POST["descripcion"], "Modificacion", $profilePhoto);
+        $profilePhoto = $_FILES["profilePhoto"];
+
+        $time = date('d-m-Y H:i:s');
+
+        $updateStudent = new TransactionObject();
+
+        $updateStudent->InicializeData($studentId, $time, $_POST["monto"], $_POST["descripcion"], "Modificacion", $profilePhoto);
 
         $studentService->Edit($studentId, $updateStudent);
 
@@ -49,7 +57,7 @@ $layout->printHeader();
 <div style="margin-top: 8px;" class="row">
     <div class="col-4"></div>
     <div class="col-4">
-        <form enctype="multipart/form-data" action="edit.php?id=<?php echo $modify->id; ?>" method="POST">
+        <form enctype="multipart/form-data" action="edit.php?id=<?php echo $studentId; ?>" method="POST">
             <div class="form-group">
                 <label for="monto">Monto</label>
                 <input class="form-control" id="monto" name="monto" value="<?php echo $modify->monto; ?>">
@@ -64,7 +72,7 @@ $layout->printHeader();
 
                 <?php if ($modify->profilePhoto == "" || $modify->profilePhoto == null) : ?>
 
-                    <img class="bd-placeholder-img card-img-top" src="../../folders/pages/default.png" width="50%" height="225" aria-label="Placeholder: Thumbnail">
+                    <img class="bd-placeholder-img card-img-top" src="../../folders/FileHandler\images/default.png" width="50%" height="225" aria-label="Placeholder: Thumbnail">
 
                 <?php else : ?>
 

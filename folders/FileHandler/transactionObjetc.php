@@ -1,6 +1,6 @@
 <?php 
 
-class Transaction {
+class TransactionObject {
     
     public $id;
     public $fechaHora;
