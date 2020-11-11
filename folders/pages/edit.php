@@ -20,15 +20,10 @@ if (isset($_GET['id'])) {
     $modify = $studentService->GetById($studentId);
 
 
-    if (isset($_POST["name2"]) && isset($_POST["last-name2"]) && isset($_POST["carrera2"]) && isset($_FILES["profilePhoto"])) {
-        if (isset($_POST["status2"])) {
-            $_POST["status2"] = "Activo";
-        } else {
-            $_POST["status2"] = "Inactivo";
-        }
+    if (isset($_POST["monto"]) && isset($_POST["descripcion"]) && isset($_FILES["profilePhoto"])) {
 
-        $updateStudent = new Student();
-        $updateStudent->InicializeData($studentId, $_POST["name2"], $_POST["last-name2"], $_POST["carrera2"], $_POST["status2"]);
+        $updateStudent = new Transaction();
+        $updateStudent->InicializeData($studentId, "", $_POST["monto"], $_POST["descripcion"], "Modificacion", $profilePhoto);
 
         $studentService->Edit($studentId, $updateStudent);
 
@@ -56,28 +51,12 @@ $layout->printHeader();
     <div class="col-4">
         <form enctype="multipart/form-data" action="edit.php?id=<?php echo $modify->id; ?>" method="POST">
             <div class="form-group">
-                <label for="name2">Nombre</label>
-                <input class="form-control" id="name2" name="name2" value="<?php echo $modify->name; ?>">
+                <label for="monto">Monto</label>
+                <input class="form-control" id="monto" name="monto" value="<?php echo $modify->monto; ?>">
             </div>
             <div class="form-group">
-                <label for="last-name2">Apellido</label>
-                <input class="form-control" id="last-name2" name="last-name2" value="<?php echo $modify->lastName; ?>">
-            </div>
-            <div class="form-group">
-                <label for="carrera2">Carrera</label>
-                <select class="form-control" name="carrera2" id="carrera2">
-                    <?php foreach ($logic->carreras as $carrera) : ?>
-                        <?php if ($modify->carrera == $carrera) : ?>
-                            <option selected value='<?php echo $carrera; ?>'><?php echo $carrera; ?></option>";
-                        <?php else : ?>
-                            <option value='<?php echo $carrera ?>'><?php echo $carrera; ?></option>";
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="status2" name="status2">
-                <label class="form-check-label" for="status2">Status</label>
+                <label for="descripcion">Descripción</label>
+                <input class="form-control" id="descripcion" name="descripcion" value="<?php echo $modify->descripcion; ?>">
             </div>
 
 
@@ -89,7 +68,7 @@ $layout->printHeader();
 
                 <?php else : ?>
 
-                    <img class="bd-placeholder-img card-img-top" src="<?php echo "../../folders/pages/" . $modify->profilePhoto; ?>" width="50%" height="225" aria-label="Placeholder: Thumbnail">
+                    <img class="bd-placeholder-img card-img-top" src="<?php echo "../../folders\FileHandler\images/" . $modify->profilePhoto; ?>" width="50%" height="225" aria-label="Placeholder: Thumbnail">
 
                 <?php endif; ?>
 
