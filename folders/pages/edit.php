@@ -10,10 +10,12 @@ require_once '..\FileHandler\FileTransaction.php';
 require_once '../FileHandler/IHandler.php';
 require_once '../FileHandler/transactionObjetc.php';
 require_once '../FileHandler/CSVFileTransaction.php';
+require_once '../FileHandler/logFileHandler.php';
 
 $layout = new Layout(true);
 $studentService = new CSVFileTransaction("..\FileHandler\data");
 $logic = new Logic();
+$log = new logFileHandler("../FileHandler/data");
 
 if (isset($_GET['id'])) {
 
@@ -31,6 +33,21 @@ if (isset($_GET['id'])) {
         $time = date('d-m-Y H:i:s');
 
         $updateStudent = array($studentId, $time, $_POST["monto"], $_POST["descripcion"], "Modificacion", $profilePhoto);
+
+        $logList = $log->ReadList();
+
+        $list = $studentService->GetList();
+    
+        $newLog = 'Se hizo una edición en la fecha ' . $time . ', la transacción editada tiene la ID: ' . $studentId . PHP_EOL;
+    
+        if ($logList !== FALSE) {
+    
+            $logList .= $newLog;
+    
+            $log->WriteList($logList);
+        } else {
+            $log->WriteList($newLog);
+        }
 
         $studentService->Edit($studentId, $updateStudent);
 

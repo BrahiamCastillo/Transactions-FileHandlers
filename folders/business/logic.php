@@ -3,8 +3,6 @@
 class Logic
 {
 
-    public $carreras = ["Redes", "Software", "Multimedia", "Mecatrónica", "Seguridad informática"];
-
     public function lastID($array)
     {
         $countId = count($array);

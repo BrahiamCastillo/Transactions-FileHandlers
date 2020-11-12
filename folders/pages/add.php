@@ -11,10 +11,12 @@ require_once '../FileHandler/IHandler.php';
 require_once '../FileHandler/CSVFileHandler.php';
 require_once '../FileHandler/transactionObjetc.php';
 require_once '../FileHandler/CSVFileTransaction.php';
+require_once '../FileHandler/logFileHandler.php';
 
 $layout = new Layout(true);
 $transactionService = new CSVFileTransaction("../FileHandler/data");
 $logic = new Logic();
+$log = new logFileHandler("../FileHandler/data");
 
 if (isset($_POST["monto"]) && isset($_POST["descripcion"]) && isset($_FILES["profilePhoto"])) {
 
@@ -22,9 +24,26 @@ if (isset($_POST["monto"]) && isset($_POST["descripcion"]) && isset($_FILES["pro
 
     $time = date('d-m-Y H:i:s');
 
-    $newStudent= array(0, $time, $_POST["monto"], $_POST["descripcion"], "Agregacion", $profilePhoto);
+    $newStudent = array(0, $time, $_POST["monto"], $_POST["descripcion"], "Agregacion", $profilePhoto);
 
     $transactionService->Add($newStudent);
+
+    $logList = $log->ReadList();
+
+    $list = $transactionService->GetList();
+
+    $newID = $logic->lastID($list);
+
+    $newLog = 'Se hizo una adición en la fecha ' . $time . ', la nueva transacción tiene la ID: ' . $newID . PHP_EOL;
+
+    if ($logList !== FALSE) {
+
+        $logList .= $newLog;
+
+        $log->WriteList($logList);
+    } else {
+        $log->WriteList($newLog);
+    }
 
     header("location: ../../index.php");
     exit();

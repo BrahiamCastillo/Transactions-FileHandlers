@@ -10,14 +10,34 @@ require_once '..\FileHandler\FileTransaction.php';
 require_once '../FileHandler/IHandler.php';
 require_once '../FileHandler/transactionObjetc.php';
 require_once '../FileHandler/CSVFileTransaction.php';
+require_once '../FileHandler/logFileHandler.php';
 
 $serviceStudent = new CSVFileTransaction("..\FileHandler\data");
+$logic = new Logic();
+$log = new logFileHandler("../FileHandler/data");
 
 $isContainId = isset($_GET['id']);
 
 if($isContainId) {
 
     $studentID = $_GET['id'];
+
+    $logList = $log->ReadList();
+
+    $list = $serviceStudent->GetList();
+
+    $time = date('d-m-Y H:i:s');
+
+    $newLog = 'Se hizo una eliminación en la fecha ' . $time . ', la transacción eliminada tenía la ID: ' . $studentID . PHP_EOL;
+
+    if ($logList !== FALSE) {
+
+        $logList .= $newLog;
+
+        $log->WriteList($logList);
+    } else {
+        $log->WriteList($newLog);
+    }
     $serviceStudent->Delete($studentID);
 
 }
