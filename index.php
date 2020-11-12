@@ -8,15 +8,14 @@ require_once 'folders\pages\StudentServiceCookies.php';
 require_once 'folders\FileHandler\FileTransaction.php';
 require_once 'folders\FileHandler\JsonFileHandler.php';
 require_once 'folders\FileHandler\transactionObjetc.php';
+require_once 'folders\FileHandler\CSVFileTransaction.php';
 
 $layout = new Layout(false);
 $logic = new Logic();
-$serviceJSON = new FileTransaction("folders\FileHandler\data");
+$serviceJSON = new CSVFileTransaction("folders\FileHandler\data");
 
 $transactionList = $serviceJSON->GetList();
 
-$arrayEncode = json_encode($transactionList);
-$arrayDecode =json_decode($arrayEncode,true);
 
 if (!empty($transactionList)) {
 
@@ -76,29 +75,29 @@ $layout->printHeader();
                         <div class="col-md-4 bg-dark" style="margin-right: 8px; margin-bottom: 8px;">
                             <div class="card mb-4 shadow-sm bg-dark text-light">
 
-                                <?php if ($students->profilePhoto == "" || $students->profilePhoto == null) : ?>
+                                <?php if ($students["5"] == "" || $students["5"] == null) : ?>
 
                                     <img class="bd-placeholder-img card-img-top" src="folders/FileHandler/images/default.png" width="100%" height="225" aria-label="Placeholder: Thumbnail">
 
                                 <?php else : ?>
 
-                                    <img class="bd-placeholder-img card-img-top" src="<?php echo "folders/FileHandler/images/" . $students->profilePhoto; ?>" width="100%" height="225" aria-label="Placeholder: Thumbnail">
+                                    <img class="bd-placeholder-img card-img-top" src="<?php echo "folders/FileHandler/images/" . $students["5"]; ?>" width="100%" height="225" aria-label="Placeholder: Thumbnail">
 
                                 <?php endif; ?>
 
                                 <div class="card-body size-letter">
-                                    <p>Id: <?php echo $students->id; ?></p>
-                                    <p>Fecha y hora: <?php echo $students->fechaHora ?></p>
+                                    <p>Id: <?php echo $students["0"]; ?></p>
+                                    <p>Fecha y hora: <?php echo $students["1"] ?></p>
                                 </div>
                                 <div class="card-body text-light">
-                                    <p>Monto: <?php echo $students->monto; ?></p>
-                                    <p>Descripción: <?php echo $students->descripcion; ?></p>
+                                    <p>Monto: <?php echo $students["2"]; ?></p>
+                                    <p>Descripción: <?php echo $students["3"]; ?></p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <hr>
                                         </hr>
                                         <div class="btn-group">
-                                            <a href="folders\pages\delete.php?id=<?php echo $students->id; ?>" class="btn btn-sm btn-outline-secondary text-light">Borrar</a>
-                                            <a href="folders\pages\edit.php?id=<?php echo $students->id; ?>" class="btn btn-sm btn-outline-secondary text-light">Editar</a>
+                                            <a href="folders\pages\delete.php?id=<?php echo $students["0"]; ?>" class="btn btn-sm btn-outline-secondary text-light">Borrar</a>
+                                            <a href="folders\pages\edit.php?id=<?php echo $students["0"]; ?>" class="btn btn-sm btn-outline-secondary text-light">Editar</a>
                                         </div>
                                     </div>
                                 </div>

@@ -10,9 +10,10 @@ require_once '../FileHandler/FileTransaction.php';
 require_once '../FileHandler/IHandler.php';
 require_once '../FileHandler/CSVFileHandler.php';
 require_once '../FileHandler/transactionObjetc.php';
+require_once '../FileHandler/CSVFileTransaction.php';
 
 $layout = new Layout(true);
-$transactionService = new FileTransaction("../FileHandler/data");
+$transactionService = new CSVFileTransaction("../FileHandler/data");
 $logic = new Logic();
 
 if (isset($_POST["monto"]) && isset($_POST["descripcion"]) && isset($_FILES["profilePhoto"])) {
@@ -21,8 +22,7 @@ if (isset($_POST["monto"]) && isset($_POST["descripcion"]) && isset($_FILES["pro
 
     $time = date('d-m-Y H:i:s');
 
-    $newStudent = new TransactionObject();
-    $newStudent->InicializeData(0, $time, $_POST["monto"], $_POST["descripcion"], "Agregacion", $profilePhoto);
+    $newStudent= array(0, $time, $_POST["monto"], $_POST["descripcion"], "Agregacion", $profilePhoto);
 
     $transactionService->Add($newStudent);
 

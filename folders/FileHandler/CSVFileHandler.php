@@ -20,9 +20,6 @@ class CSVFileHandler implements IHandler
 
             mkdir($this->directory, 0777, true);
 
-            $path = $this->directory . '/' . $this->name . '.csv';
-
-            $file = fopen($path,'w+');
 
         }
     }
@@ -55,11 +52,8 @@ class CSVFileHandler implements IHandler
 
         $file = fopen($path,'w+');
 
-        $arrayEncode = json_encode($entity);
-        $arrayDecode =json_decode($arrayEncode,true);
-        
-        foreach($arrayDecode as $array) {
-            fputcsv($file, $array,",",'"');
+        foreach($entity as $array) {
+            fputcsv($file, $array);
         }
         
         fclose($file);

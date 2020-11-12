@@ -8,7 +8,7 @@ class Logic
     public function lastID($array)
     {
         $countId = count($array);
-        $lastId = $array[$countId - 1];
+        $lastId = $array[$countId - 1][0];
         return $lastId;
     }
 
@@ -19,6 +19,18 @@ class Logic
         foreach ($array as $comp) {
             if ($comp->$place == $value) {
                 array_push($filter, $comp);
+            }
+        }
+        return $filter;
+    }
+
+    public function getElementListCSV($array, $place, $value)
+    {
+        $filter = [];
+
+        for($f = 0; $f<count($array); $f++) {
+            if($array[$f][$place] == $value) {
+                array_push($filter, $array[$f]);
             }
         }
         return $filter;
@@ -41,6 +53,20 @@ class Logic
         }
         return $loc;
     }
+
+    public function getIndexCSV($array, $place, $value)
+    {
+
+        $loc = 0;
+
+        for($f = 0; $f<count($array); $f++) {
+            if($array[$f][$place] == $value) {
+                $loc = $f;
+            }
+        }
+        return $loc;
+    }
+
 
     public function uploadImage($directory, $name, $timeFile, $type, $size) {
 

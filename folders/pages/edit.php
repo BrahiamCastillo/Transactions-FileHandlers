@@ -9,29 +9,28 @@ require_once '..\FileHandler\JsonFileHandler.php';
 require_once '..\FileHandler\FileTransaction.php';
 require_once '../FileHandler/IHandler.php';
 require_once '../FileHandler/transactionObjetc.php';
+require_once '../FileHandler/CSVFileTransaction.php';
 
 $layout = new Layout(true);
-$studentService = new FileTransaction("..\FileHandler\data");
+$studentService = new CSVFileTransaction("..\FileHandler\data");
 $logic = new Logic();
 
 if (isset($_GET['id'])) {
 
     $studentId = $_GET['id'];
 
-    $modify = $studentService->GetById($studentId);
-    $arrayEncode = json_encode($modify);
-    $arrayDecode =json_decode($arrayEncode,true);
+    $listadoTransaction = $studentService->GetList();
+
+    $modify= $studentService->GetById($studentId);
 
 
     if (isset($_POST["monto"]) && isset($_POST["descripcion"]) && isset($_FILES["profilePhoto"])) {
 
-        $profilePhoto = $_FILES["profilePhoto"];
+        $profilePhoto = $_FILES["profilePhoto"][0];
 
         $time = date('d-m-Y H:i:s');
 
-        $updateStudent = new TransactionObject();
-
-        $updateStudent->InicializeData($studentId, $time, $_POST["monto"], $_POST["descripcion"], "Modificacion", $profilePhoto);
+        $updateStudent = array($studentId, $time, $_POST["monto"], $_POST["descripcion"], "Modificacion", $profilePhoto);
 
         $studentService->Edit($studentId, $updateStudent);
 
@@ -60,23 +59,23 @@ $layout->printHeader();
         <form enctype="multipart/form-data" action="edit.php?id=<?php echo $studentId; ?>" method="POST">
             <div class="form-group">
                 <label for="monto">Monto</label>
-                <input class="form-control" id="monto" name="monto" value="<?php echo $modify->monto; ?>">
+                <input class="form-control" id="monto" name="monto" value="<?php echo $modify[2]; ?>">
             </div>
             <div class="form-group">
                 <label for="descripcion">Descripción</label>
-                <input class="form-control" id="descripcion" name="descripcion" value="<?php echo $modify->descripcion; ?>">
+                <input class="form-control" id="descripcion" name="descripcion" value="<?php echo $modify[3]; ?>">
             </div>
 
 
             <div class="card mb-4 shadow-sm bg-dark text-light">
 
-                <?php if ($modify->profilePhoto == "" || $modify->profilePhoto == null) : ?>
+                <?php if ($modify[5] == "" || $modify[5] == null) : ?>
 
                     <img class="bd-placeholder-img card-img-top" src="../../folders/FileHandler\images/default.png" width="50%" height="225" aria-label="Placeholder: Thumbnail">
 
                 <?php else : ?>
 
-                    <img class="bd-placeholder-img card-img-top" src="<?php echo "../../folders\FileHandler\images/" . $modify->profilePhoto; ?>" width="50%" height="225" aria-label="Placeholder: Thumbnail">
+                    <img class="bd-placeholder-img card-img-top" src="<?php echo "../../folders\FileHandler\images/" . $modify["5"]; ?>" width="50%" height="225" aria-label="Placeholder: Thumbnail">
 
                 <?php endif; ?>
 
